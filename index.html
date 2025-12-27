@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>To do app</title>
+    <link href="style.css" rel="stylesheet">
+</head>
+<body>
+
+    <form class="remove">
+
+        <div class="form_work">
+            <label for="input_work">Task</label>
+            <input id="input_work" class="input_work" type="text" placeholder="Enter Task" required>
+        </div>
+        <div class="form_t">
+            <label for="input_time">Due Date</label>
+            <input id="input_time" type="date" placeholder="Enter date">
+        </div>
+        <div class="form_d">
+            <label for="input_date">Due Time</label>
+            <input id="input_date" type="time" placeholder="Enter Time">
+        </div>
+        <div class="buttons">
+            <button class="undo" type="button">Cancel</button>
+            <button class = "add" type="submit">Add</button>
+        </div>
+
+        </form>
+
+    <div id = "main_add_box">
+        <div id="full_time">
+            <span class="hours"></span>
+            <span class="min"></span>
+            <span class="sec"></span>
+        </div>
+
+        <div id="full_date">
+            <span class="date"></span>
+            <span class="month"></span>
+            <span class="year"></span>
+        </div>
+        <button id="button_add">click to add task</button>
+        <button id="button_re_all">click to delete all task</button>
+        <div id="tasks_perc_main">
+            <span class="completed"></span>
+            <span class="incomplete"></span>
+            <span class="pending"></span>
+        </div>
+    </div>
+
+    <div id = "main_box_parent"></div>
+
+
+
+
+
+    <script src="script.js"></script>
+</body>
+</html>
