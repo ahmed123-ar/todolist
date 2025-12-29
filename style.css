@@ -22,6 +22,14 @@ body{
     background-attachment: fixed;
 }
 
+.pending{
+    background-color: green;
+}
+
+.incomplete{
+    background-color: red;
+}
+
 
 
 .form{

@@ -1,6 +1,8 @@
 let tasks_info = []
 let items = 0
 let edit_index = -1
+let today_time=""
+let today_date=""
 
 let body = document.querySelector("body")
 let com = document.querySelector(".completed")
@@ -14,6 +16,27 @@ let main_task_box = document.querySelector("#main_box_parent")
 let form = document.querySelector("form")
 let input = document.querySelectorAll("input")
 let remove = document.querySelector("#button_re_all")
+
+
+function normalize_input_date_time() {
+    today_date_time();
+
+    if (!input[1].value && input[2].value) {
+        input[1].value = today_date;
+    }
+}
+
+
+function today_date_time(){
+    let now = new Date()
+    let today_hrs = String(now.getHours()).padStart(2, '0')
+    let today_min = String(now.getMinutes()).padStart(2, '0')
+    today_time = `${today_hrs}:${today_min}`
+    let today_year= now.getFullYear()
+    let today_month = String(now.getMonth() + 1).padStart(2, '0')
+    let today_day = String(now.getDate()).padStart(2, '0')
+    today_date = `${today_year}-${today_month}-${today_day}`
+}
 
 function delete_tasks(){
     let del_btns = document.querySelectorAll(".del_ui")
@@ -31,7 +54,6 @@ function delete_tasks(){
                 main_task_box.innerHTML = "no tasks"
             }else{
                 display()
-                tasks_perc()
                 delete_tasks()
                 edit_tasks()
             }
@@ -64,6 +86,7 @@ function edit_tasks(){
 }
 
 function display(){
+    items = 0
     tasks_info.forEach(task_single => {
     let parent_box = document.createElement("div")
     parent_box.classList.add("main_box")
@@ -71,6 +94,12 @@ function display(){
     let whole_one_task = document.createElement("div")
     whole_one_task.classList.add(`whole_${items}`)
     parent_box.appendChild(whole_one_task)
+    
+    if(task_single.status === "pending"){
+        parent_box.classList.add("pending")
+    }else{
+        parent_box.classList.add("incomplete")
+    }
 
     let task = document.createElement("span")
     task.classList.add(`task${items}`)
@@ -167,19 +196,77 @@ function  all_date(){
     year_id.innerText  = year
 }
 
-function tasks_perc(){
-    let pending_perc = ((pending_items/items) *100).toFixed(1)
-    let completed_perc = ((completed_items/items)*100).toFixed(1)
-    let incomplete_perc = ((incomplted_items/items)*100).toFixed(1)
-    com.innerText = completed_perc.toString()
-    incom.innerText = incomplete_perc.toString()
-    pend.innerText = pending_perc.toString()
+function check_task_status(task){
+    if(task.date === ""){
+        return "pending"
+    }
+
+    today_date_time()
+
+    if(task.date<today_date){
+        return "incomplete"
+    }else if(task.date===today_date){
+        if (!task.time) {
+            return "pending"
+        }else if (task.time < today_time) {
+            return "incomplete"
+        }else{
+            return "pending"
+        }
+    }else{
+        return  "pending"
+    }
 }
 
+function update_task_status() {
+    today_date_time();
+
+    let changed = false;
+
+    tasks_info.forEach(task => {
+        let newStatus = check_task_status(task);
+        if (task.status !== newStatus) {
+            task.status = newStatus;
+            changed = true;
+        }
+    });
+
+    if (changed === true) {
+        into_local();
+        items = 0;
+        main_task_box.innerHTML = "";
+        display()
+        delete_tasks()
+        edit_tasks()
+        complete_tasks()
+    }
+}
+
+
+function task_status_input(){
+    today_date_time()
+    if(input[2].value==="" && input[1].value === ""){
+        return "pending"
+    }else if (today_date>=input[1].value){
+        return "incomplete"
+    }else if(today_date === input[1].value){
+        if(today_time > input[2].value){
+            return "incomplete"
+        }else{
+            return "pending"
+        }
+    }else {
+        return "pending"
+    }
+
+
+}
 
 setInterval(all_date,1000)
 
 setInterval(all_time, 1000)
+
+setInterval(update_task_status, 1000);
 
 document.addEventListener("DOMContentLoaded" , () =>  {
     tasks_info = get_local()
@@ -189,7 +276,6 @@ document.addEventListener("DOMContentLoaded" , () =>  {
         display()
         delete_tasks()
         edit_tasks()
-        tasks_perc()
     }
 })
 
@@ -202,11 +288,13 @@ form.addEventListener("submit" , (e) => {
         return
     }
 
+    normalize_input_date_time()
+
     let obj = {
         task : input[0].value ,
         date : input[1].value ,
         time : input[2].value ,
-        status : "pending"
+        status : task_status_input()
     }
 
     if(edit_index === -1){
@@ -223,7 +311,6 @@ form.addEventListener("submit" , (e) => {
     delete_tasks()
     edit_tasks()
     empt_input()
-    tasks_perc()
 
     form.classList.add("remove")
     form.classList.remove("form")
@@ -241,7 +328,6 @@ Ui_btn_add.addEventListener("click" , () => {
     main_task_box.classList.add("remove")
     body.classList.add("background")
     body.classList.add("background")
-    tasks_perc()
 })
 
 form_cancel.addEventListener("click"  , () => {
