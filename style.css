@@ -23,12 +23,19 @@ body{
 }
 
 .pending{
-    background-color: green;
+    --ring-color: #f1c40f;
+    background-color: #fff7cc;
 }
 
 .incomplete{
-    background-color: red;
+    --ring-color: #e74c3c;
+    background-color: #ffe5e5;
 }
+
+.complete{
+    --ring-color: #2ecc71;
+    background-color: #e6ffef;
+}    
 
 
 
@@ -120,16 +127,25 @@ form div label{
 }
 
 #tasks_perc_main span{
-    border: 10px solid black;
+    --percent: 0;
+
     width: 120px;
     height: 120px;
     border-radius: 50%;
     display: flex;
     justify-content: center;
     align-items: center;
-    flex-direction: row;
-    margin: 5px;
+
+    font-size: 22px;
+    font-weight: bold;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+
+    background:conic-gradient(var(--ring-color) calc(var(--percent) * 1%),#e6e6e6 0%);
+
+    transition: background 0.8s ease-in-out;
 }
+
+
 #full_time{
     display: flex;
     justify-content: center;

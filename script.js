@@ -26,6 +26,50 @@ function normalize_input_date_time() {
     }
 }
 
+function percentages_task(){
+    const total_tasks=tasks_info.length
+    if(total_tasks === 0){
+        com.innerText = `0% compl`
+        incom.innerText = `0% incom`
+        pend.innerText = `0% pend`
+        return
+    }
+
+    const tasks_pending = tasks_info.filter(task => {
+        if (task.status === "pending"){
+            return true
+        }
+    }).length
+
+    const tasks_incom = tasks_info.filter(task => {
+        if (task.status === "incomplete"){
+            return true
+        }
+    }).length
+    
+    const tasks_com = tasks_info.filter(task => {
+        if (task.status === "completed"){
+            return true
+        }
+    }).length
+
+    const completedPerc = Math.round((tasks_com / total_tasks) * 100);
+    const incompletePerc = Math.round((tasks_incom / total_tasks) * 100);
+    const pendingPerc = Math.round((tasks_pending / total_tasks) * 100);
+
+    incom.innerText = `${incompletePerc}%`;
+    pend.innerText = `${pendingPerc}%`;
+    com.innerText = `${completedPerc}%`
+
+    com.style.setProperty("--percent", completedPerc);
+    pend.style.setProperty("--percent", pendingPerc);
+    incom.style.setProperty("--percent", incompletePerc);
+
+    
+
+    
+}
+
 
 function today_date_time(){
     let now = new Date()
@@ -57,10 +101,41 @@ function delete_tasks(){
                 delete_tasks()
                 edit_tasks()
             }
+            percentages_task()
             
         })
     })
 }
+
+function complete_tasks() {
+    let completeBtns = document.querySelectorAll(".complete_ui");
+
+    completeBtns.forEach(btn => {
+        btn.addEventListener("click", () => {
+            let parent = btn.parentElement;
+            let className = parent.className; // com0, com1...
+            let index = +className.substring(3);
+            tasks_info[index].status = "completed"
+
+            into_local();
+
+            items = 0;
+            main_task_box.innerHTML = "";
+
+            if (tasks_info.length === 0) {
+                main_task_box.innerText = "no tasks";
+            } else {
+                display();
+                delete_tasks();
+                edit_tasks();
+                complete_tasks();
+            }
+
+            percentages_task();
+        });
+    });
+}
+
 
 function edit_tasks(){
     let edit_btns = document.querySelectorAll(".edit_ui")
@@ -81,6 +156,8 @@ function edit_tasks(){
             input[1].value = tasks_info[edit_index].date
             input[2].value = tasks_info[edit_index].time
 
+            percentages_task()
+
         })
     })
 }
@@ -97,8 +174,10 @@ function display(){
     
     if(task_single.status === "pending"){
         parent_box.classList.add("pending")
-    }else{
+    }else if(task_single.status === "incomplete"){
         parent_box.classList.add("incomplete")
+    }else{
+        parent_box.classList.add("complete")
     }
 
     let task = document.createElement("span")
@@ -147,6 +226,20 @@ function display(){
     com_btn.innerText = "Complete"
     com_btn.classList.add("complete_ui")
     complete.appendChild(com_btn)
+
+    if (task_single.status === "completed") {
+    com_btn.disabled = true;
+    del_btn.disabled = true;
+    edit_btn.disabled = true;
+
+    com_btn.style.opacity = "0.4";
+    del_btn.style.opacity = "0.4";
+    edit_btn.style.opacity = "0.4";
+
+    com_btn.style.cursor = "not-allowed";
+    del_btn.style.cursor = "not-allowed";
+    edit_btn.style.cursor = "not-allowed";
+}
     items = items +1
     })
 }
@@ -224,6 +317,7 @@ function update_task_status() {
     let changed = false;
 
     tasks_info.forEach(task => {
+        if (task.status === "completed") return
         let newStatus = check_task_status(task);
         if (task.status !== newStatus) {
             task.status = newStatus;
@@ -236,6 +330,8 @@ function update_task_status() {
         items = 0;
         main_task_box.innerHTML = "";
         display()
+        complete_tasks()
+        percentages_task()
         delete_tasks()
         edit_tasks()
         complete_tasks()
@@ -272,8 +368,11 @@ document.addEventListener("DOMContentLoaded" , () =>  {
     tasks_info = get_local()
     if(tasks_info.length === 0){
         main_task_box.innerText  = "no tasks"
+        percentages_task()
     }else{
         display()
+        complete_tasks()
+        percentages_task()
         delete_tasks()
         edit_tasks()
     }
@@ -308,6 +407,8 @@ form.addEventListener("submit" , (e) => {
     into_local()
     tasks_info = get_local()
     display()
+    complete_tasks()
+    percentages_task()
     delete_tasks()
     edit_tasks()
     empt_input()
@@ -345,6 +446,7 @@ remove.addEventListener("click" , () => {
     localStorage.clear()
     tasks_info = []
     main_task_box.innerText  = "no tasks"
+    percentages_task()
 
 })
 
