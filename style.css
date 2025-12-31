@@ -15,6 +15,20 @@ body{
     align-items: center;
 }
 
+#time_date{
+    display: flex;
+    flex-direction: row;
+    background-color: brown;
+    width: 30vw;
+}
+
+#add_dlt{
+    display: flex;
+    flex-direction: row;
+    width: 30vw;
+    background-color: #e74c3c;
+}
+
 .background{
     background-image: url("./images/background.png");
     background-repeat: no-repeat;
@@ -32,7 +46,7 @@ body{
     background-color: #ffe5e5;
 }
 
-.complete{
+.completed{
     --ring-color: #2ecc71;
     background-color: #e6ffef;
 }    
@@ -124,13 +138,12 @@ form div label{
     justify-content: center;
     align-items: center;
     flex-direction: row;
+    width: 30vw;
 }
 
 #tasks_perc_main span{
-    --percent: 0;
-
-    width: 120px;
-    height: 120px;
+    width: 100px;
+    height: 100px;
     border-radius: 50%;
     display: flex;
     justify-content: center;
@@ -139,10 +152,6 @@ form div label{
     font-size: 22px;
     font-weight: bold;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-
-    background:conic-gradient(var(--ring-color) calc(var(--percent) * 1%),#e6e6e6 0%);
-
-    transition: background 0.8s ease-in-out;
 }
 
 
@@ -238,7 +247,7 @@ form div label{
 
 span [class*="com"]{
     margin-left: 10px;
-    width: 10vw;
+    width: 20vw;
     height: 30px;
     border-radius: 2px solid black;
     border: 1px solid black;
@@ -246,7 +255,7 @@ span [class*="com"]{
 }
 
 span [class*="del"]{
-    width: 10vw;
+    width: 20vw;
     height: 30px;
     border-radius: 2px solid black;
     border: 1px solid black;
@@ -255,7 +264,7 @@ span [class*="del"]{
 }
 
 span [class*="edit"]{
-    width: 10vw;
+    width: 20vw;
     height: 30px;
     border-radius: 2px solid black;
     border: 1px solid black;
@@ -284,4 +293,140 @@ span [class*="edit"]{
 }
 
 
+@media(max-width: 1000px){
 
+    #main_add_box{
+        flex-wrap: wrap;
+        height: 300px;
+        margin-top: 100px;
+        margin-bottom: 20px;
+    }
+
+    #time_date{
+        width: 48vw;
+    }
+
+    #add_dlt{
+        width: 48vw;
+    }
+
+    #tasks_perc_main{
+        width: 80vw;
+        justify-content: space-evenly;
+        margin-top: 20px;
+    }
+
+    #tasks_perc_main span{
+        width: 150px;
+        height: 150px;
+        font-size: 16px;
+    }
+
+}
+
+@media(max-width: 1000px){
+    #main_box_parent{
+        flex-wrap: wrap;
+        flex-direction: row;
+        align-items: flex-start;
+    }
+
+    .main_box{
+        width: 48vw;
+        height: 300px;
+    }
+
+    [class*="whole"]{
+        width: 48vw;
+        height: 300px;
+        flex-wrap: wrap;
+    }
+
+    [class*="task"]{
+        width: 47vw;
+        height: 100px;
+    }
+
+    
+}
+
+@media(max-width: 600px){
+    #main_box_parent{
+        flex-wrap: wrap;
+        flex-direction: row;
+        align-items: flex-start;
+    }
+
+    .main_box{
+        width: 98vw;
+        height: 300px;
+    }
+
+    [class*="whole"]{
+        width: 98vw;
+        height: 300px;
+        flex-wrap: wrap;
+    }
+
+    [class*="task"]{
+        width: 99vw;
+        height: 100px;
+    }
+
+    [class*="date"]{
+        width: 49vw;
+    }
+
+    #main_add_box{
+        flex-wrap: wrap;
+        height: 300px;
+        margin-top: 100px;
+        margin-bottom: 20px;
+    }
+
+    #time_date{
+        width: 98vw;
+        display: flex;
+        justify-content: center;
+    }
+
+    #add_dlt{
+        width: 98vw;
+        display: flex;
+        justify-content: center;
+        margin-top: 10px;
+    }
+
+    #tasks_perc_main{
+        width: 80vw;
+        justify-content: space-evenly;
+        margin-top: 20px;
+    }
+
+    #tasks_perc_main span{
+        width: 150px;
+        height: 150px;
+    }
+}
+
+@media(max-width: 520px){
+    #tasks_perc_main span{
+        width: 100px;
+        height: 100px;
+    }
+}
+
+@media(max-width: 350px){
+    #tasks_perc_main span{
+        width: 60px;
+        height: 60px;
+    }
+
+    [class*="date"] {
+        width: 99vw;
+    }
+
+    [class*="time"]{
+        width: 99vw;
+    }
+}

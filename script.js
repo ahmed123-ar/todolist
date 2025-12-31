@@ -358,9 +358,9 @@ function task_status_input(){
 
 }
 
-setInterval(all_date,1000)
+setInterval(all_date,1)
 
-setInterval(all_time, 1000)
+setInterval(all_time, 1)
 
 setInterval(update_task_status, 1000);
 
