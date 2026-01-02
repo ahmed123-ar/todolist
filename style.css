@@ -13,20 +13,24 @@ body{
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    overflow: hidden;
 }
 
 #time_date{
     display: flex;
     flex-direction: row;
-    background-color: brown;
     width: 30vw;
+    color: white;
+}
+
+#time_date #full_time{
+    margin-right: 10px;
 }
 
 #add_dlt{
     display: flex;
     flex-direction: row;
     width: 30vw;
-    background-color: #e74c3c;
 }
 
 .background{
@@ -125,12 +129,21 @@ form div label{
 }
 
 #main_add_box{
-    width: 98vw;
+    width: 100vw;
     height: 150px;
-    border: 1px solid black;
     display: flex;
     justify-content: space-evenly;
     align-items: center;
+    background-color: #261450;
+}
+.completed  { --clr: #2ecc71; }
+.pending    { --clr: #f1c40f; }
+.incomplete { --clr: #e74c3c; }
+
+@property --p {
+  syntax: '<number>';
+  inherits: true;
+  initial-value: 0;
 }
 
 #tasks_perc_main{
@@ -142,15 +155,21 @@ form div label{
 }
 
 #tasks_perc_main span{
+    --p: 0; 
+
+    background: conic-gradient(var(--clr) calc(var(--p) * 1%), #1b1c22 0);
+    transition: --p 1.2s ease-in-out;
+
+
     width: 100px;
     height: 100px;
     border-radius: 50%;
     display: flex;
     justify-content: center;
     align-items: center;
+    color: azure;
 
-    font-size: 22px;
-    font-weight: bold;
+    font-size: 15px;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
@@ -160,9 +179,13 @@ form div label{
     justify-content: center;
     align-items: center;
     flex-direction: row;
+    background: rgba(255, 255, 255, 0.08); 
+    backdrop-filter: blur(14px);
+    border-radius: 10px;
+    font-size: 20px;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
 }
 #full_time span{
-    border: 1px solid black;
     width: 40px;
     height: 40px;
     display: flex;
@@ -176,20 +199,31 @@ form div label{
     justify-content: center;
     align-items: center;
     flex-direction: row;
+    padding-right: 12px;
+    margin-left: 20px;
+    background: rgba(255, 255, 255, 0.08); 
+    backdrop-filter: blur(14px);
+    border-radius: 10px;
+    font-size: 20px;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
 }
 
 #full_date span{
-    border: 1px solid black;
     width: 40px;
     height: 40px;
     display: flex;
     justify-content: center;
     align-items: center;
     flex-direction: row;
+    border: none;
+}
+
+#full_date :nth-child(2){
+    margin-right: 20px;
 }
 
 #main_box_parent{
-    width: 98vw;
+    width: 100vw;
     height: 80vh;
     border: 1px solid black;
     display: flex;
@@ -200,7 +234,7 @@ form div label{
 }
 
 .main_box {
-    width: 98vw;
+    width: 100vw;
     height: 10vh;
     border: 1px solid black;
     display: flex;
@@ -209,7 +243,7 @@ form div label{
 }
 [class*="whole"]{
 
-    width: 98vw;
+    width: 100vw;
     height: 10vh;
     border: 1px solid black;
     display: flex;
@@ -274,22 +308,37 @@ span [class*="edit"]{
 
 #button_add{
     width: 130px;
-    height: 30px;
-    border-radius: 1px solid black;
+    height: 40px;
+    border-radius: 10px;
     padding: 5px 2px;
     text-transform: capitalize;
     margin-right: 50px;
     cursor: pointer;
+    border: none;
+    outline: none;
+    background: rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(14px);
+    color: white;
+    font-size: 18px;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
 }
 
 #button_re_all{
-    width: 150px;
-    height: 30px;
+    width: 130px;
+    height: 40px;
     border-radius: 1px solid black;
     padding: 5px 2px;
     text-transform: capitalize;
     margin-right: 50px;
     cursor: pointer;
+    border: none;
+    outline: none;
+    background: rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(14px);
+    color: white;
+    font-size: 18px;
+    border-radius: 10px;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
 }
 
 
@@ -298,22 +347,26 @@ span [class*="edit"]{
     #main_add_box{
         flex-wrap: wrap;
         height: 300px;
-        margin-top: 100px;
         margin-bottom: 20px;
+        justify-content: space-evenly;
     }
 
     #time_date{
         width: 48vw;
+        margin-top: 20px;
     }
 
     #add_dlt{
         width: 48vw;
+        margin-top: 20px;
+        padding-left: 100px;
     }
 
     #tasks_perc_main{
         width: 80vw;
         justify-content: space-evenly;
         margin-top: 20px;
+        margin-bottom: 20px;
     }
 
     #tasks_perc_main span{
@@ -350,6 +403,22 @@ span [class*="edit"]{
     
 }
 
+@media(max-width: 750px){
+    #button_re_all {
+        font-size: 14px;
+    }
+    #button_add{
+        font-size: 14px;
+    }
+    #full_date{
+        font-size: 14px;
+    }
+    
+    #full_time{
+        font-size: 14px;
+    }
+}
+
 @media(max-width: 600px){
     #main_box_parent{
         flex-wrap: wrap;
@@ -380,7 +449,6 @@ span [class*="edit"]{
     #main_add_box{
         flex-wrap: wrap;
         height: 300px;
-        margin-top: 100px;
         margin-bottom: 20px;
     }
 
@@ -418,8 +486,9 @@ span [class*="edit"]{
 
 @media(max-width: 350px){
     #tasks_perc_main span{
-        width: 60px;
-        height: 60px;
+        width: 80px;
+        height: 80px;
+        font-size: 12px;
     }
 
     [class*="date"] {
@@ -428,5 +497,28 @@ span [class*="edit"]{
 
     [class*="time"]{
         width: 99vw;
+    }
+
+    #full_date{
+        margin-left: 10px;
+    }
+    #full_date span{
+       width: 20px;
+       font-size: 12px;
+    }
+    #full_time span{
+        width: 30px;
+        font-size: 12px;
+    }
+
+    #button_re_all{
+        width: 200px;
+        font-size: 12px;
+    }
+
+    #button_add{
+        width: 200px;
+        font-size: 12px;
+        margin-right: 5px;
     }
 }

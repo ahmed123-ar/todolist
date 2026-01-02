@@ -17,6 +17,12 @@ let form = document.querySelector("form")
 let input = document.querySelectorAll("input")
 let remove = document.querySelector("#button_re_all")
 
+function updateProgress(className, value) {
+  const element = document.querySelector(`.${className}`);
+  if (element) {
+    element.style.setProperty('--p', value);
+  }
+}
 
 function normalize_input_date_time() {
     today_date_time();
@@ -32,6 +38,10 @@ function percentages_task(){
         com.innerText = `0% compl`
         incom.innerText = `0% incom`
         pend.innerText = `0% pend`
+
+        updateProgress('completed', 0);
+        updateProgress('pending', 0);
+        updateProgress('incomplete', 0);
         return
     }
 
@@ -61,9 +71,11 @@ function percentages_task(){
     pend.innerText = `${pendingPerc}%`;
     com.innerText = `${completedPerc}%`
 
-    com.style.setProperty("--percent", completedPerc);
-    pend.style.setProperty("--percent", pendingPerc);
-    incom.style.setProperty("--percent", incompletePerc);
+
+    
+    updateProgress('completed', completedPerc);
+    updateProgress('pending', pendingPerc);
+    updateProgress('incomplete', incompletePerc);
 
     
 
@@ -271,8 +283,8 @@ function all_time(){
     let hours = full_format_date.getHours().toString().padStart(2 , "0")
     let min = full_format_date.getMinutes().toString().padStart(2 , "0")
     let sec = full_format_date.getSeconds().toString().padStart(2 , "0")
-    hours_id.innerText = hours
-    min_id.innerText = min
+    hours_id.innerText = `${hours} :`
+    min_id.innerText = `${min} :`
     sec_id.innerText = sec
 }
 
