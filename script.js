@@ -189,7 +189,7 @@ function display(){
     }else if(task_single.status === "incomplete"){
         parent_box.classList.add("incomplete")
     }else{
-        parent_box.classList.add("complete")
+        parent_box.classList.add("completed")
     }
 
     let task = document.createElement("span")
